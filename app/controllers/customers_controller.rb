@@ -1,12 +1,11 @@
 class CustomersController < ApplicationController
-  before_action :set_customer, only: [:show, :edit, :update, :destroy]
+  before_action :set_customer, only: [:show, :edit, :update, :destroy, :softdelete]
   before_action :Check_softdelete, only: [:show, :edit, :update]
 
   # Set Customer deleted_at field to current time
   def softdelete
-    @customer= Customer.find_by_id(params[:id])
-    @customer = Customer.update(:deleted_at => Time.now)
-    redirect_to :back
+    @customer.update(:deleted_at => Time.now)
+    redirect_back(fallback_location: root_path)
   end
 
   # Set Customer deleted_at field to nil

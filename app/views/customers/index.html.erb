@@ -21,7 +21,7 @@
         <td><%= link_to 'Show', customer %></td>
         <td><%= link_to 'Edit', edit_customer_path(customer) %></td>
         <td><%= link_to 'HARD Delete', customer, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-        <td><%= link_to 'SOFT Delete', softdelete_customers_path(customer) , data: { confirm: 'Are you sure this delete will not delete Permanently' } %></td>
+        <td><%= link_to 'SOFT Delete', softdelete_customers_path(:id => customer.id) , data: { confirm: 'Are you sure this delete will not delete Permanently' } %></td>
       </tr>
     <% end %>
   </tbody>
