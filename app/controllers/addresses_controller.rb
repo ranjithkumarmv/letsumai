@@ -4,7 +4,8 @@ class AddressesController < ApplicationController
   # GET /addresses
   # GET /addresses.json
   def index
-    @addresses = Address.all
+    @addresses = Address.all.where(deleted_at: nil)
+    @addresses_soft_deleted = Address.all.where.not(deleted_at: nil)
   end
 
   # GET /addresses/1

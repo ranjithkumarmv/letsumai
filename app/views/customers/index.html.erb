@@ -1,10 +1,11 @@
 <p id="notice"><%= notice %></p>
 
-<h1>Customers</h1>
+<h1>Customers List</h1>
 
 <table>
   <thead>
     <tr>
+      <th>ID</th>
       <th>Name</th>
       <th>Email</th>
       <th>Phonenumber</th>
@@ -15,6 +16,7 @@
   <tbody>
     <% @customers.each do |customer| %>
       <tr>
+        <td><%= customer.id %></td>
         <td><%= customer.name %></td>
         <td><%= customer.email %></td>
         <td><%= customer.phonenumber %></td>
@@ -32,11 +34,12 @@
 <%= link_to 'New Customer', new_customer_path %>
 
 <br><br><br>
-<h1>Customers List All Including Soft Deleted</h1>
+<h1>Soft Deleted Customers</h1>
 
 <table>
   <thead>
     <tr>
+      <th>ID</th>
       <th>Name</th>
       <th>Email</th>
       <th>Phonenumber</th>
@@ -45,14 +48,15 @@
   </thead>
 
   <tbody>
-    <% @customers_all.each do |customer| %>
+    <% @customers_soft_deleted.each do |customer| %>
       <tr>
+        <td><%= customer.id %></td>
         <td><%= customer.name %></td>
         <td><%= customer.email %></td>
         <td><%= customer.phonenumber %></td>
         <td><%= link_to 'Show', customer %></td>
         <td><%= link_to 'Edit', edit_customer_path(customer) %></td>
-        <td><%= link_to 'UNDO SOFT Delete', undosoftdelete_customers_path(customer) , data: { confirm: 'Are you sure undo' } %></td>
+        <td><%= link_to 'UNDO SOFT Delete', undosoftdelete_customers_path(:id => customer.id) , data: { confirm: 'Are you sure undo' } %></td>
         <td><%= link_to 'HARD Delete', customer, method: :delete, data: { confirm: 'Are you sure Hard Delete?' } %></td>
       </tr>
     <% end %>

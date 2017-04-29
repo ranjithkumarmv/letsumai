@@ -1,25 +1,26 @@
 class CustomersController < ApplicationController
-  before_action :set_customer, only: [:show, :edit, :update, :destroy, :softdelete]
+  before_action :set_customer, only: [:show, :edit, :update, :destroy, :softdelete, :undosoftdelete]
   before_action :Check_softdelete, only: [:show, :edit, :update]
 
   # Set Customer deleted_at field to current time
   def softdelete
     @customer.update(:deleted_at => Time.now)
+    @address = Address.all.where(customer_id: @customer.id)
+    @address.update(:deleted_at => Time.now)
     redirect_back(fallback_location: root_path)
   end
 
   # Set Customer deleted_at field to nil
   def undosoftdelete
-    @customer= Customer.find_by_id(params[:id])
-    @customer = Customer.update(:deleted_at => nil)
-    redirect_to :back
+    @customer.update(:deleted_at => nil)
+    redirect_back(fallback_location: root_path)
   end
 
   # GET /customers
   # GET /customers.json
   def index
     @customers = Customer.all.where(deleted_at: nil)
-    @customers_all = Customer.all
+    @customers_soft_deleted = Customer.all.where.not(deleted_at: nil)
   end
 
   # GET /customers/1
