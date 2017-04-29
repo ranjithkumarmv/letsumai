@@ -1,10 +1,18 @@
 class CustomersController < ApplicationController
   before_action :set_customer, only: [:show, :edit, :update, :destroy]
+  before_action :Check_softdelete, only: [:show, :edit, :update]
+
+  # Set Customer deleted_at field to current time
+  def softdelete
+    @customer= Customer.find_by_id(params[:id])
+    @customer = Customer.update(:deleted_at => Time.now)
+  end
 
   # GET /customers
   # GET /customers.json
   def index
-    @customers = Customer.all
+    @customers = Customer.all.where(deleted_at: nil)
+    @customers_all = Customer.all
   end
 
   # GET /customers/1
@@ -70,5 +78,13 @@ class CustomersController < ApplicationController
     # Never trust parameters from the scary internet, only allow the white list through.
     def customer_params
       params.require(:customer).permit(:name, :email, :phonenumber)
+    end
+
+    # Check Customer Not softdeleted
+    def Check_softdelete
+      @customer = Customer.find(params[:id])
+      if @customer.deleted_at != nil
+        render html: "Soft Deleted User Cannot edit, show, Update"
+      end
     end
 end
