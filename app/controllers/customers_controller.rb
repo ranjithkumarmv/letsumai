@@ -9,6 +9,13 @@ class CustomersController < ApplicationController
     redirect_to :back
   end
 
+  # Set Customer deleted_at field to nil
+  def undosoftdelete
+    @customer= Customer.find_by_id(params[:id])
+    @customer = Customer.update(:deleted_at => nil)
+    redirect_to :back
+  end
+
   # GET /customers
   # GET /customers.json
   def index
