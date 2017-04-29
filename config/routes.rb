@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :addresses
   mount RailsAdmin::Engine => '/admin', as: 'rails_admin'
   resources :customers do
   get 'softdelete', :on => :collection

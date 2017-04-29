@@ -6,6 +6,7 @@ class CustomersController < ApplicationController
   def softdelete
     @customer= Customer.find_by_id(params[:id])
     @customer = Customer.update(:deleted_at => Time.now)
+    redirect_to :back
   end
 
   # GET /customers

@@ -3,4 +3,6 @@ class Customer < ApplicationRecord
   validates_format_of :email, :with => /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\z/i, presence: true, length: { maximum: 25 }
   validates :phonenumber, numericality: true , length: { minimum:10, maximum: 10 }, presence: true
   validates :email, uniqueness: true
+
+  has_many :addresses, :dependent => :delete_all
 end
