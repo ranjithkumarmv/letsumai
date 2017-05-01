@@ -6,13 +6,6 @@ class Customer < ApplicationRecord
 
   has_many :addresses, :dependent => :delete_all
 
-  def softdelete
-    update(:deleted_at => Time.now)
-    Customer.find(self.id).addresses.update(:deleted_at => Time.now)
-  end
-  def undosoftdelete
-    update(:deleted_at => nil)
-    Customer.find(self.id).addresses.update(:deleted_at => nil)
-  end
+  include Delete
 
 end
