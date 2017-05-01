@@ -4,8 +4,8 @@ class AddressesController < ApplicationController
   # GET /addresses
   # GET /addresses.json
   def index
-    @addresses = Address.all.where(deleted_at: nil)
-    @addresses_soft_deleted = Address.all.where.not(deleted_at: nil)
+    @addresses = Address.without_deleted
+    @addresses_soft_deleted = Address.only_soft_deleted
   end
 
   # GET /addresses/1
@@ -15,7 +15,7 @@ class AddressesController < ApplicationController
 
   # GET /addresses/new
   def new
-    if Customer.all.where(deleted_at: nil).count > 0
+    if Customer.without_deleted.count > 0
     @address = Address.new
     else
       render html: "First create customers No Active Customers"

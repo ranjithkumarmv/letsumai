@@ -2,15 +2,16 @@ module Delete
   extend ActiveSupport::Concern
 
   included do
-    has_many :addresses
+  scope :without_deleted, ->  { all.where(deleted_at: nil) }
+  scope :only_soft_deleted, ->  { all.where.not(deleted_at: nil) }
+  scope :softdelete, ->  { update(:deleted_at => Time.now) }
+  scope :undosoftdelete, ->  { update(:deleted_at => nil) }
   end
 
   def softdelete
-    update(:deleted_at => Time.now)
-    self.addresses.update(:deleted_at => Time.now)
+    self.update(:deleted_at => Time.now)
   end
   def undosoftdelete
-    update(:deleted_at => nil)
-    self.addresses.update(:deleted_at => nil)
+    self.update(:deleted_at => nil)
   end
 end
