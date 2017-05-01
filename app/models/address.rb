@@ -5,4 +5,7 @@ class Address < ApplicationRecord
   validates :street_name, :city, :country, length: { maximum: 10 }, presence: true, format: { with: /\A[a-zA-Z]+\z/, message: "only allows letters" }
 
   belongs_to :customer
+
+  include Delete
+  
 end

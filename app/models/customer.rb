@@ -5,4 +5,7 @@ class Customer < ApplicationRecord
   validates :email, uniqueness: true
 
   has_many :addresses, :dependent => :delete_all
+
+  include Delete
+
 end
