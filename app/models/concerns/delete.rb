@@ -6,7 +6,6 @@ module Delete
   scope :only_soft_deleted, ->  { all.where.not(deleted_at: nil) }
   scope :softdelete, ->  { update(:deleted_at => Time.now) }
   scope :undosoftdelete, ->  { update(:deleted_at => nil) }
-  scope :is_deleted, ->  { deleted_at != nil }
   end
 
   def softdelete
