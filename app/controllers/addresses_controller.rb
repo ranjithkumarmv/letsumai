@@ -80,7 +80,7 @@ class AddressesController < ApplicationController
     # Check Customer Not softdeleted
     def Check_softdelete
     @address = Address.find(params[:id])
-    if @address.is_deleted
+    if @address.deleted_at != nil
       render html: "Soft Deleted Address Cannot edit, show, Update"
       end
     end
