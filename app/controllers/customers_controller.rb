@@ -91,7 +91,7 @@ class CustomersController < ApplicationController
     # Check Customer Not softdeleted
     def Check_softdelete
       @customer = Customer.find(params[:id])
-      if @customer.deleted_at != nil
+      if @customer.is_deleted
         render html: "Soft Deleted User Cannot edit, show, Update"
       end
     end
