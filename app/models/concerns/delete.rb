@@ -8,10 +8,16 @@ module Delete
   scope :undosoftdelete, ->  { update(:deleted_at => nil) }
   end
 
+  def getname
+    self.class.reflect_on_all_associations(:has_many).first.klass
+  end
+
   def softdelete
     self.update(:deleted_at => Time.now)
+    self.getname.update(:deleted_at => Time.now)
   end
   def undosoftdelete
     self.update(:deleted_at => nil)
+    self.getname.update(:deleted_at => nil)
   end
 end

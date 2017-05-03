@@ -5,14 +5,12 @@ class CustomersController < ApplicationController
   # Set Customer deleted_at field to current time
   def softdelete
     @customer.softdelete
-    Address.all.where(customer_id: @customer.id).softdelete
     redirect_back(fallback_location: root_path)
   end
 
   # Set Customer deleted_at field to nil
   def undosoftdelete
     @customer.undosoftdelete
-    Address.all.where(customer_id: @customer.id).undosoftdelete
     redirect_back(fallback_location: root_path)
   end
 
