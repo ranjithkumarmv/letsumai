@@ -12,12 +12,17 @@ module Delete
     self.class.reflect_on_all_associations(:has_many).first.klass
   end
 
+  def getkey
+    @a = self.class.reflect_on_all_associations(:has_many).map(&:foreign_key)
+    return @a[0]
+  end
+
   def softdelete
     self.update(:deleted_at => Time.now)
-    self.getname.update(:deleted_at => Time.now)
+    self.getname.where(getkey => self.id).update(:deleted_at => Time.now)
   end
   def undosoftdelete
     self.update(:deleted_at => nil)
-    self.getname.update(:deleted_at => nil)
+    self.getname.where(getkey => self.id).update(:deleted_at => nil)
   end
 end
