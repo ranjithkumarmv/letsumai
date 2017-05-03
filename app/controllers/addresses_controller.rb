@@ -1,5 +1,6 @@
 class AddressesController < ApplicationController
   before_action :set_address, only: [:show, :edit, :update, :destroy]
+  before_action :Check_softdelete, only: [:show, :edit, :update]
 
   # GET /addresses
   # GET /addresses.json
@@ -75,5 +76,12 @@ class AddressesController < ApplicationController
     # Never trust parameters from the scary internet, only allow the white list through.
     def address_params
       params.require(:address).permit(:customer_id, :street_number, :street_name, :pincode, :city, :country)
+    end
+    # Check Customer Not softdeleted
+    def Check_softdelete
+    @address = Address.find(params[:id])
+    if @address.deleted_at != nil
+      render html: "Soft Deleted Address Cannot edit, show, Update"
+      end
     end
 end
